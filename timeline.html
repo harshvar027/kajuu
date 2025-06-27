@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Growing Timeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Raleway:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('images/DALL·E 2025-02-13 15.34.18.webp') no-repeat center center fixed;
+            background-size: cover;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        .particle:nth-child(odd) {
+            background: rgba(255, 107, 107, 0.4);
+            animation-duration: 8s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(0, 192, 0, 0.4);
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(4n) {
+            background: rgba(255, 193, 7, 0.4);
+            animation-duration: 12s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff4d6d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        header:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        header button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        header button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.6s ease;
+        }
+
+        header button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        header button:hover::before {
+            left: 100%;
+        }
+
+        header button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .love-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            font-weight: bold;
+            background: linear-gradient(
+                to right,
+                #ff6b6b,
+                #ff8e8e,
+                #ff6b6b,
+                #ff8e8e,
+                #ff6b6b
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: loveTextShine 3s linear infinite;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+            position: relative;
+            padding: 0 20px;
+            transform-origin: center;
+            animation: loveTextFloat 3s ease-in-out infinite;
+        }
+
+        .love-text::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 107, 107, 0.1),
+                transparent
+            );
+            border-radius: 50%;
+            animation: loveTextGlow 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .love-text::after {
+            content: '❤';
+            position: absolute;
+            font-size: 1.5rem;
+            top: -10px;
+            right: -5px;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        @keyframes loveTextShine {
+            0% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: hue-rotate(180deg);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @keyframes loveTextGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+                filter: blur(5px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+                filter: blur(8px);
+            }
+        }
+
+        @keyframes loveTextFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-2deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes buttonPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        header button.active {
+            background: rgba(255, 255, 255, 0.2);
+            animation: buttonPulse 2s infinite;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            margin: 120px 0 20px;
+            color: #ffffff;
+            font-size: 48px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            position: relative;
+            transition: all 0.3s ease;
+            animation: titleGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        h1:hover {
+            transform: scale(1.05);
+            text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8);
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff4d6d, transparent);
+            margin: 10px auto;
+            transition: all 0.3s ease;
+            animation: titleLine 3s ease-in-out infinite;
+        }
+
+        @keyframes titleLine {
+            0%, 100% {
+                width: 100px;
+                background: linear-gradient(90deg, transparent, #ff4d6d, transparent);
+            }
+            50% {
+                width: 150px;
+                background: linear-gradient(90deg, transparent, #ff4d6d, #ff6f61, transparent);
+            }
+        }
+
+        h1:hover::after {
+            width: 150px;
+            background: linear-gradient(90deg, transparent, #ff4d6d, #ff6f61, transparent);
+        }
+
+        .timeline-container {
+            position: relative;
+            width: 80%;
+            margin: 150px auto 0;
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        /* Tree Stem Styling */
+        .timeline-stem {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            background: linear-gradient(to bottom, #006400, #00a000);
+            height: 0;
+            transition: height 2s ease-out;
+            box-shadow: 0 0 20px rgba(0, 100, 0, 0.4);
+            border-radius: 4px;
+            z-index: 1;
+            animation: stemGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes stemGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 100, 0, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 100, 0, 0.6), 0 0 40px rgba(0, 192, 0, 0.3);
+            }
+        }
+
+        /* Tree Node Styling */
+        .timeline-node {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #00c000;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(0, 192, 0, 0.6);
+            transition: all 0.5s ease;
+            animation: nodeFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes nodeFloat {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-3px);
+            }
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            top: 5px;
+            left: 5px;
+            animation: nodePulse 2s infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        /* Branch Connection Styling */
+        .branch-connection {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(90deg, #006400, #00a000);
+            z-index: 1;
+            transition: all 0.8s ease;
+            animation: connectionGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes connectionGlow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(0, 100, 0, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 10px rgba(0, 100, 0, 0.5);
+            }
+        }
+
+        .branch-connection-left {
+            right: 50%;
+            transform-origin: right center;
+        }
+
+        .branch-connection-right {
+            left: 50%;
+            transform-origin: left center;
+        }
+
+        .branch-connection::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00c000;
+            top: -2px;
+            animation: connectionDot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes connectionDot {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .branch-connection-left::after {
+            right: 0;
+        }
+
+        .branch-connection-right::after {
+            left: 0;
+        }
+
+        /* Branch Card Styling */
+        .timeline-branch {
+            width: 40%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #007bff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+            backdrop-filter: blur(5px);
+            z-index: 3;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        .timeline-branch:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            animation: cardHover 0.3s ease-out;
+        }
+
+        @keyframes cardHover {
+            0% {
+                transform: translateY(-5px) scale(1.02);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.03);
+            }
+            100% {
+                transform: translateY(-5px) scale(1.02);
+            }
+        }
+
+        .timeline-branch img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            animation: imageGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes imageGlow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+            }
+        }
+
+        .timeline-branch:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-branch-left {
+            right: 52%;
+            transform-origin: right center;
+        }
+
+        .timeline-branch-right {
+            left: 52%;
+            transform-origin: left center;
+        }
+
+        /* Leaf styling */
+        .leaf {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #00c000;
+            border-radius: 50% 0;
+            opacity: 0;
+            animation: leafGrow 0.5s forwards, leafSway 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes leafGrow {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 0.8; }
+        }
+
+        @keyframes leafSway {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .timeline-branch h3 {
+            font-family: 'Dancing Script', cursive;
+            margin: 0 0 10px;
+            font-size: 26px;
+            color: #343a40;
+            transition: all 0.3s ease;
+            animation: textShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes textShimmer {
+            0%, 100% {
+                background: linear-gradient(45deg, #343a40, #495057);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+            50% {
+                background: linear-gradient(45deg, #007bff, #0056b3);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        .timeline-branch:hover h3 {
+            color: #007bff;
+            transform: translateX(5px);
+        }
+
+        .timeline-branch p {
+            font-size: 18px;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-branch:hover p {
+            color: #495057;
+        }
+
+        .timeline-branch .date {
+            font-size: 16px;
+            font-weight: bold;
+            color: #6c757d;
+            margin-bottom: 10px;
+            font-family: 'Dancing Script', cursive;
+            transition: all 0.3s ease;
+            animation: dateGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes dateGlow {
+            0%, 100% {
+                text-shadow: none;
+            }
+            50% {
+                text-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+            }
+        }
+
+        .timeline-branch:hover .date {
+            color: #007bff;
+        }
+
+        /* Sparkle Effect */
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+            z-index: 4;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                gap: 10px;
+            }
+
+            header button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .love-text {
+                font-size: 2rem;
+                order: -1;
+            }
+
+            h1 {
+                font-size: 36px;
+                margin-top: 100px;
+            }
+
+            .timeline-container {
+                width: 90%;
+            }
+
+            .timeline-branch {
+                width: 80%;
+            }
+
+            .timeline-branch-left,
+            .timeline-branch-right {
+                left: 52%;
+            }
+
+            .branch-connection-left {
+                display: none;
+            }
+
+            .timeline-node {
+                left: 10%;
+            }
+
+            .timeline-stem {
+                left: 10%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .timeline-branch {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .timeline-branch h3 {
+                font-size: 22px;
+            }
+
+            .timeline-branch p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <header>
+        <div class="nav-buttons">
+            <button onclick="navigateTo('welcome.html')">Home</button>
+            <button onclick="navigateTo('main.html')">Main Page</button>
+            <button onclick="navigateTo('gallery.html')">Gallery</button>
+            <button onclick="navigateTo('timeline.html')" class="active">Timeline</button>
+            <button onclick="navigateTo('memory.html')">Memories</button>
+            <button onclick="navigateTo('about.html')">About</button>
+            <button onclick="navigateTo('contact.html')">Contact</button>
+        </div>
+        <div class="love-text">I LOVE YOU</div>
+    </header>
+
+    <h1>Our Life Journey</h1>
+
+    <div class="timeline-container">
+        <div class="timeline-stem" id="timelineStem"></div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 6) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Create sparkle effects
+        function createSparkles() {
+            const container = document.querySelector('.timeline-container');
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                container.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 2000);
+            }, 1000);
+        }
+
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+            }, 1000);
+        });
+
+        const timelineData = [
+            { date: "January 26, 2024", title: "Republic day", description: "The day we first met as gf and bf and were soso excited we shared our hug(ashirwad) and laughted and clicked photos.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "February 14, 2020", title: "First date", description: "Our first romantic Valentine's celebration.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "March 14, 2020", title: "FC road ghumi", description: "An unforgettable trip to the mountains.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "April 5, 2020", title: " Movie Date", description: "We watched our favorite movie together.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "June 10, 2020", title: "Walking in the garden", description: "In the garden, we shared whispers as the rain fell upon us, and we found ourselves seated by the river's edge..", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "August 20, 2020", title: "Happy birthday", description: "A road trip filled with laughter and music.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "October 31, 2020", title: "First Halloween Together", description: "Dressed up and had so much fun!", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "December 25, 2020", title: "First Christmas Celebration", description: "A cozy Christmas full of love and joy.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "January 1, 2021", title: "New Year Celebration", description: "Welcomed the new year with hope and love.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "February 20, 2021", title: "First Cooking Together", description: "Made a delicious meal together.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "March 15, 2021", title: "Beach Getaway", description: "A peaceful day at the beach, just us.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "May 1, 2021", title: "First Time Watching Sunset Together", description: "A breathtaking view with my favorite person.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "July 10, 2021", title: "Adventure Park Visit", description: "Tried thrilling rides and had a blast!", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "September 5, 2021", title: "First Pet Together", description: "Welcomed a furry friend into our lives.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "November 11, 2021", title: "First Festival Celebration", description: "Celebrated a festival full of traditions and fun.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "December 31, 2021", title: "New Year's Eve Party", description: "Danced and laughed till midnight!", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "February 14, 2022", title: "Valentine's Special Date", description: "A candlelight dinner filled with romance.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "April 22, 2022", title: "Camping Under the Stars", description: "Spent the night under a sky full of stars.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "June 18, 2022", title: "Music Concert", description: "Enjoyed live music and sang along together.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "August 1, 2022", title: "Tried a New Hobby Together", description: "Took a painting class and had so much fun.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "October 5, 2022", title: "First Rainy Day Walk", description: "Danced in the rain and made beautiful memories.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "December 24, 2022", title: "Cozy Winter Night", description: "Hot cocoa, blankets, and heartwarming stories.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "January 15, 2023", title: "Celebrated a Small Victory", description: "Every success is sweeter together.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "March 30, 2023", title: "Road Trip Adventure", description: "Explored new places and created new memories.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "May 20, 2023", title: "Surprise Date Night", description: "A special date night planned just for us.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "July 12, 2023", title: "Explored a New City", description: "Visited a new city and fell in love with it.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "September 22, 2023", title: "Made a Time Capsule", description: "Stored our memories to open in the future.", image: "images/DALL·E 2025-02-13 00.36.44.webp" },
+            { date: "November 14, 2023", title: "Laughed Until We Cried", description: "A day full of jokes and uncontrollable laughter.", image: "images/DALL·E 2025-02-13 15.34.15.webp" },
+            { date: "January 1, 2024", title: "New Year, New Adventures", description: "Looking forward to another beautiful year together.", image: "images/DALL·E 2025-02-13 15.34.18.webp" },
+            { date: "February 10, 2024", title: "Dreaming About the Future", description: "Planned for all the exciting things ahead.", image: "images/DALL·E 2025-02-13 00.36.44.webp" }
+        ];
+
+        const container = document.querySelector('.timeline-container');
+        const stem = document.getElementById('timelineStem');
+        const branchSpacing = 250; // Increased spacing for better tree appearance
+
+        function createTimeline() {
+            // Set the height of the stem
+            stem.style.height = `${timelineData.length * branchSpacing + 100}px`;
+
+            // Create tree structure
+            timelineData.forEach((event, index) => {
+                // Create node on the stem
+                const node = document.createElement('div');
+                node.className = 'timeline-node';
+                node.style.top = `${index * branchSpacing + 100}px`;
+                container.appendChild(node);
+                
+                // Create branch connection
+                const connection = document.createElement('div');
+                const isRight = index % 2 === 0;
+                connection.className = `branch-connection ${isRight ? 'branch-connection-right' : 'branch-connection-left'}`;
+                connection.style.top = `${index * branchSpacing + 112}px`; // Center with node
+                connection.style.width = '0'; // Start with 0 width for animation
+                
+                if (isRight) {
+                    connection.style.left = 'calc(50% + 12px)'; // Start from node
+                } else {
+                    connection.style.width = '0';
+                    connection.style.right = 'calc(50% + 12px)'; // Start from node
+                }
+                
+                container.appendChild(connection);
+                
+                // Create branch card
+                const branch = document.createElement('div');
+                branch.className = `timeline-branch ${isRight ? 'timeline-branch-right' : 'timeline-branch-left'}`;
+                branch.style.top = `${index * branchSpacing + 100 - 30}px`; // Adjust to align with node
+                
+                branch.innerHTML = `
+                    <div class="date">${event.date}</div>
+                    <h3>${event.title}</h3>
+                    <p>${event.description}</p>
+                    <img src="${event.image}" alt="Event image">
+                `;
+                
+                container.appendChild(branch);
+                
+                // Add decorative leaves
+                for (let i = 0; i < 3; i++) {
+                    const leaf = document.createElement('div');
+                    leaf.className = 'leaf';
+                    
+                    // Random position around the connection
+                    const leafTop = index * branchSpacing + 100 + Math.random() * 30 - 15;
+                    const leafSide = isRight ? 
+                        Math.random() * 100 + 50 : 
+                        -Math.random() * 100 - 50;
+                    
+                    leaf.style.top = `${leafTop}px`;
+                    leaf.style.left = `calc(50% + ${leafSide}px)`;
+                    leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    // Delayed appearance
+                    setTimeout(() => {
+                        container.appendChild(leaf);
+                    }, index * 400 + 1500 + i * 200);
+                }
+                
+                // Animate elements
+                setTimeout(() => {
+                    // Animate connection
+                    if (isRight) {
+                        connection.style.width = 'calc(40% - 12px)';
+                    } else {
+                        connection.style.width = 'calc(40% - 12px)';
+                    }
+                    
+                    // Animate branch
+                    setTimeout(() => {
+                        branch.style.opacity = '1';
+                        branch.style.transform = 'translateY(0)';
+                    }, 300);
+                    
+                }, index * 400 + 1000);
+            });
+        }
+
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+                setTimeout(() => {
+                    createParticles();
+                    createSparkles();
+                    createTimeline();
+                }, 500);
+            }, 1000);
+        };
+
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Raleway:wght@400&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Dancing Script', cursive;
+            overflow-x: hidden;
+            background: url('images/download (4).jpeg') no-repeat center center fixed;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        header:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        header button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        header button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.6s ease;
+        }
+
+        header button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        header button:hover::before {
+            left: 100%;
+        }
+
+        header button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .love-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            font-weight: bold;
+            background: linear-gradient(
+                to right,
+                #ff6b6b,
+                #ff8e8e,
+                #ff6b6b,
+                #ff8e8e,
+                #ff6b6b
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: loveTextShine 3s linear infinite;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+            position: relative;
+            padding: 0 20px;
+            transform-origin: center;
+            animation: loveTextFloat 3s ease-in-out infinite;
+        }
+
+        .love-text::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 107, 107, 0.1),
+                transparent
+            );
+            border-radius: 50%;
+            animation: loveTextGlow 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .love-text::after {
+            content: '❤';
+            position: absolute;
+            font-size: 1.5rem;
+            top: -10px;
+            right: -5px;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        @keyframes loveTextShine {
+            0% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: hue-rotate(180deg);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        @keyframes loveTextGlow {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+                filter: blur(5px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+                filter: blur(8px);
+            }
+        }
+
+        @keyframes loveTextFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-2deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes buttonPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        header button.active {
+            background: rgba(255, 255, 255, 0.2);
+            animation: buttonPulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                gap: 10px;
+            }
+
+            header button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .love-text {
+                font-size: 2rem;
+                order: -1;
+            }
+        }
+
+        /* Contact Box */
+        .contact-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .contact-box p {
+            font-size: 3rem; /* Increased font size */
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            text-shadow: 0 0 10px pink, 0 0 20px red, 0 0 30px orange;
+            margin-bottom: 20px;
+        }
+
+        .contact-box .dancing-script {
+            font-size: 6rem; /* Increased font size */
+            font-family: 'Dancing Script', cursive;
+            color: #ff4d6d;
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.5), 0 0 20px rgba(255, 77, 109, 0.5);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-buttons">
+            <button onclick="navigateTo('welcome.html')">Home</button>
+            <button onclick="navigateTo('main.html')">Main Page</button>
+            <button onclick="navigateTo('gallery.html')">Gallery</button>
+            <button onclick="navigateTo('timeline.html')">Timeline</button>
+            <button onclick="navigateTo('memory.html')">Memories</button>
+            <button onclick="navigateTo('about.html')">About</button>
+            <button onclick="navigateTo('contact.html')" class="active">Contact</button>
+        </div>
+        <div class="love-text">I LOVE YOU</div>
+    </header>
+
+    <!-- Contact Box -->
+    <div class="contact-box">
+        <p>Aapko mera contact no. nhii milskta, itna dia na kaafi hai 🥰😊😋.</p>
+        <div class="dancing-script">I LOVE YOU</div>
+    </div>
+
+    <script>
+        // JavaScript for Flower Navigation
+        function toggleFlower() {
+            const flower = document.getElementById('flower');
+            flower.classList.toggle('active');
+
+            if (flower.classList.contains('active')) {
+                generatePetals(flower);
+            } else {
+                removePetals(flower);
+            }
+        }
+
+        function generatePetals(flower) {
+            const petalData = [
+                { text: "Home", color: "#3498db", url: "welcome.html" },
+                { text: "Gallery", color: "#e74c3c", url: "gallery.html" },
+                { text: "Timeline", color: "#2ecc71", url: "timeline.html" },
+                { text: "Memories", color: "#9b59b6", url: "memory.html" },
+                { text: "about us", color: "#f39c12", url: "about.html" },
+                { text: "contact", color: "#1abc9c", url: "contact.html" }
+            ];
+
+            if (flower.querySelectorAll('.petal').length === 0) {
+                petalData.forEach((data, index) => {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal');
+                    petal.textContent = data.text;
+                    petal.style.backgroundColor = data.color;
+                    petal.style.transitionDelay = `${index * 0.08}s`;
+                    petal.onclick = () => navigateTo(data.url);
+                    flower.appendChild(petal);
+                    petal.offsetWidth;
+                });
+            } else {
+                flower.querySelectorAll('.petal').forEach(petal => {
+                    petal.style.opacity = 1;
+                    petal.style.transform = 'translateX(0px)';
+                });
+            }
+        }
+
+        function removePetals(flower) {
+            const petals = flower.querySelectorAll('.petal');
+            petals.forEach((petal, index) => {
+                petal.style.transitionDelay = `${(petals.length - 1 - index) * 0.08}s`;
+                petal.style.transform = 'translateX(-150px)';
+                petal.style.opacity = 0;
+
+                setTimeout(() => {
+                    petal.remove();
+                }, 400);
+            });
+        }
+
+        // Function for navigation buttons
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>

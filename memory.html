@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Slideshow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Raleway:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        /* ====== PREMIUM ANIMATIONS & DESIGN SYSTEM ====== */
+        :root {
+            --primary: #ff4d6d;
+            --primary-light: #ff8e8e;
+            --primary-dark: #ff2a54;
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-gradient: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            --shadow-sm: 0 2px 8px rgba(255, 77, 109, 0.15);
+            --shadow-md: 0 5px 15px rgba(255, 77, 109, 0.2);
+            --shadow-lg: 0 8px 25px rgba(255, 77, 109, 0.3);
+            --cubic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Base Styles with Modern Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+            background: url('images/DALL·E 2025-02-14 01.02.42 - A vibrant Polaroid-themed collage featuring multiple instant photos scattered across a soft pastel background. Each Polaroid has a subtle glow, with s.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+            color: var(--text-dark);
+            perspective: 1000px;
+        }
+
+        /* Header with Glass Morphism */
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--text-light);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: calc(100%);
+            box-sizing: border-box;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s var(--cubic);
+            margin: 0;
+        }
+
+        header:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        header button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.4s var(--cubic);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        header button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s ease;
+        }
+
+        header button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        header button:hover::before {
+            left: 100%;
+        }
+
+        header button:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Stunning Love Text Animation */
+        .love-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e, #ff6b6b, #ff8e8e, #ff6b6b);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: loveTextShine 3s linear infinite, loveTextFloat 3s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+            position: relative;
+            padding: 0 20px;
+            transform-origin: center;
+        }
+
+        .love-text::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, transparent, rgba(255,107,107,0.1), transparent);
+            border-radius: 50%;
+            animation: loveTextGlow 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .love-text::after {
+            content: '❤';
+            position: absolute;
+            font-size: 1.5rem;
+            top: -10px;
+            right: -5px;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        @keyframes loveTextShine {
+            0% {background-position: 0% 50%; filter: hue-rotate(0deg);}
+            50% {background-position: 100% 50%; filter: hue-rotate(10deg);}
+            100% {background-position: 0% 50%; filter: hue-rotate(0deg);}
+        }
+
+        @keyframes loveTextGlow {
+            0%,100% {opacity: 0.5; transform: scale(1); filter: blur(5px);}
+            50% {opacity: 1; transform: scale(1.1); filter: blur(8px);}
+        }
+
+        @keyframes loveTextFloat {
+            0%,100% {transform: translateY(0) rotate(-2deg);}
+            50% {transform: translateY(-10px) rotate(2deg);}
+        }
+
+        @keyframes heartBeat {
+            0%,100% {transform: scale(1);}
+            50% {transform: scale(1.3);}
+        }
+
+        /* Main Title with Glow */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--text-light);
+            text-align: center;
+            font-size: 3.5rem;
+            margin-top: 90px;
+            text-shadow: 0 0 15px rgba(255, 107, 107, 0.5), 0 0 30px rgba(255, 107, 107, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            width: 80%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+            animation: titlePulse 3s infinite alternate;
+        }
+
+        h1::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotateBg 8s linear infinite;
+        }
+
+        @keyframes titlePulse {
+            0% {text-shadow: 0 0 15px rgba(255, 107, 107, 0.5), 0 0 30px rgba(255, 107, 107, 0.3);}
+            100% {text-shadow: 0 0 20px rgba(255, 107, 107, 0.7), 0 0 40px rgba(255, 107, 107, 0.5);}
+        }
+
+        @keyframes rotateBg {
+            0% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+
+        /* Memory Container with Stagger Effect */
+        .memory-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            margin: 40px 20px 40px 20px;
+            perspective: 1000px;
+        }
+
+        /* Premium Memory Box with 3D Effects */
+        .memory-box {
+            width: 300px;
+            height: 350px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 15px;
+            box-shadow: var(--shadow-md), 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.5s var(--cubic);
+            transform-style: preserve-3d;
+            animation: fadeInMemory 0.8s var(--cubic) both;
+            animation-delay: calc(var(--i, 0) * 0.1s);
+        }
+
+        .memory-box:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(-5deg);
+            box-shadow: var(--shadow-lg), 0 30px 50px rgba(0,0,0,0.2);
+            border-color: var(--primary-dark);
+        }
+
+        .memory-box:active {
+            transform: scale(0.98) rotateX(0) rotateY(0);
+        }
+
+        .memory-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .memory-box:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes fadeInMemory {
+            from {opacity: 0; transform: translateY(50px) scale(0.9) rotateX(10deg);}
+            to {opacity: 1; transform: translateY(0) scale(1) rotateX(0);}
+        }
+
+        /* Carousel with Advanced Transitions */
+        .memory-carousel {
+            width: 100%;
+            height: 60%;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(255, 77, 109, 0.2);
+        }
+
+        .memory-carousel-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .memory-carousel-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .memory-carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+            filter: brightness(0.95);
+        }
+
+        .memory-box:hover .memory-carousel-item img {
+            transform: scale(1.05);
+            filter: brightness(1.05);
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) scale(0.9);
+            background: rgba(255, 107, 107, 0.7);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.4s var(--cubic);
+            z-index: 10;
+            color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-prev {
+            left: 10px;
+            transform: translateY(-50%) translateX(-10px) scale(0.9);
+        }
+
+        .carousel-next {
+            right: 10px;
+            transform: translateY(-50%) translateX(10px) scale(0.9);
+        }
+
+        .memory-box:hover .carousel-control {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0) scale(1);
+        }
+
+        .carousel-control:hover {
+            background: rgba(255, 107, 107, 0.9);
+            transform: translateY(-50%) scale(1.15) !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .memory-carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 5;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(0.8);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(255, 77, 109, 0.5);
+        }
+
+        .carousel-dot:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Memory Content Styling */
+        .memory-title {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 12px 10px 5px;
+            margin: 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .memory-box:hover .memory-title {
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        .memory-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.5s ease;
+            transform: translateX(-50%);
+        }
+
+        .memory-box:hover .memory-title::after {
+            width: 70%;
+        }
+
+        .memory-description {
+            font-size: 1rem;
+            color: #666;
+            text-align: center;
+            padding: 5px 15px;
+            margin: 0;
+            transition: all 0.3s ease;
+            max-height: 60px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            box-orient: vertical;
+        }
+
+        .memory-box:hover .memory-description {
+            color: #333;
+        }
+
+        /* Media Icons with Pulse Effect */
+        .memory-music-icon, .memory-video-icon {
+            position: absolute;
+            top: 15px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .memory-music-icon {
+            left: 15px;
+            color: var(--primary);
+        }
+
+        .memory-video-icon {
+            right: 15px;
+            color: var(--primary);
+        }
+
+        .memory-box:hover .memory-music-icon,
+        .memory-box:hover .memory-video-icon {
+            transform: scale(1.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .memory-music-icon::after,
+        .memory-video-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 77, 109, 0.3);
+            z-index: -1;
+            animation: pulse 2s infinite;
+            opacity: 0;
+        }
+
+        .memory-box:hover .memory-music-icon::after,
+        .memory-box:hover .memory-video-icon::after {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0% {transform: scale(1); opacity: 0.7;}
+            70% {transform: scale(1.5); opacity: 0;}
+            100% {transform: scale(1); opacity: 0;}
+        }
+
+        /* Delete Button with Smooth Animation */
+        .memory-box .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s var(--cubic);
+            opacity: 1;
+            transform: scale(1);
+            z-index: 20;
+        }
+
+        .memory-box:hover .delete-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .memory-box .delete-btn:hover {
+            background: rgba(255, 0, 0, 1);
+            transform: scale(1.2);
+        }
+
+        /* Add Memory Button with Premium Effects */
+        .add-memory-btn {
+            font-size: 1.7rem;
+            color: var(--text-light);
+            background: var(--bg-gradient);
+            background-size: 200% auto;
+            padding: 18px 38px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.5s var(--cubic);
+            display: block;
+            margin: 50px auto 30px auto;
+            box-shadow: var(--shadow-md);
+            border: none;
+            font-family: 'Dancing Script', cursive;
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s var(--cubic);
+        }
+
+        .add-memory-btn:hover {
+            background-position: right center;
+            transform: translateY(-7px) scale(1.05);
+            box-shadow: var(--shadow-lg), 0 10px 20px rgba(255, 77, 109, 0.25);
+        }
+
+        .add-memory-btn:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-memory-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.15);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .add-memory-btn:hover::before {
+            animation: shimmer 1.5s infinite;
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0% {transform: rotate(45deg) translateX(-100%);}
+            100% {transform: rotate(45deg) translateX(100%);}
+        }
+
+        /* Modal Styling with Glass Effect */
+        .edit-modal, .slideshow-modal, .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .edit-modal.active, .slideshow-modal.active, .login-modal.active {
+            display: flex;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .edit-modal .modal-content, .slideshow-content, .login-modal .login-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 35px 25px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+            position: relative;
+            animation: modalEnter 0.6s var(--cubic);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes modalEnter {
+            from {transform: translateY(-70px) scale(0.9); opacity: 0;}
+            to {transform: translateY(0) scale(1); opacity: 1;}
+        }
+
+        /* Form Elements with Modern Design */
+        .edit-modal .modal-header, .login-modal h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .edit-modal .modal-header::after, .login-modal h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-gradient);
+            border-radius: 2px;
+        }
+
+        .edit-modal input, .edit-modal textarea, .edit-modal select, .login-modal input {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border: 2px solid rgba(255, 77, 109, 0.3);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s var(--cubic);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .edit-modal input:focus, .edit-modal textarea:focus, 
+        .edit-modal select:focus, .login-modal input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.2), inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .edit-modal button, .login-modal button {
+            background: var(--bg-gradient);
+            background-size: 200% auto;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s var(--cubic);
+            margin: 15px 8px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .edit-modal button:hover, .login-modal button:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .edit-modal button:active, .login-modal button:active {
+            transform: translateY(1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .edit-modal button::before, .login-modal button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .edit-modal button:hover::before, .login-modal button:hover::before {
+            left: 100%;
+        }
+
+        .file-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Slideshow with Premium Effects */
+        .slideshow-content {
+            max-width: 700px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .slideshow-image-container {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background: #f8f8f8;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slideshow-carousel-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slideshow-carousel-inner img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            transition: all 0.5s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+        }
+
+        .slideshow-carousel-inner img.active {
+            opacity: 1;
+            visibility: visible;
+            display: block;
+            animation: zoomIn 0.5s forwards;
+        }
+
+        @keyframes zoomIn {
+            from {transform: scale(0.9); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+
+        .slideshow-thumbnails {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .slideshow-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+
+        .slideshow-thumbnail.active {
+            border-color: var(--primary);
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 3px 10px rgba(255, 77, 109, 0.3);
+        }
+
+        .slideshow-thumbnail:hover {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .slideshow-navigation {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .slideshow-navigation button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s var(--cubic);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slideshow-navigation button:hover {
+            background: var(--primary-dark);
+            transform: scale(1.15);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .close-btn, .back-btn {
+            position: absolute;
+            top: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s var(--cubic);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .close-btn {
+            right: 20px;
+        }
+
+        .back-btn {
+            left: 20px;
+        }
+
+        .close-btn:hover, .back-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: var(--shadow-lg), 0 0 15px rgba(255, 77, 109, 0.7);
+        }
+        
+        /* Add glow effect to buttons in slideshow */
+        .slideshow-modal.active .close-btn,
+        .slideshow-modal.active .back-btn {
+            animation: buttonGlow 2s infinite alternate;
+        }
+        
+        @keyframes buttonGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 77, 109, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(255, 77, 109, 0.8), 0 0 30px rgba(255, 77, 109, 0.4);
+            }
+        }
+
+        /* Audio Player with Modern Design */
+        .audio-player {
+            width: 100%;
+            max-width: 450px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .audio-player-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s var(--cubic);
+        }
+
+        .audio-player-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+        }
+
+        .audio-player-progress {
+            flex-grow: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .audio-player-progress-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .audio-player-volume {
+            width: 80px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .audio-player-volume-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 4px;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            margin: 40px auto;
+        }
+
+        .loading-dot {
+            width: 15px;
+            height: 15px;
+            margin: 0 7px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: loadingPulse 1.5s infinite ease-in-out;
+            box-shadow: 0 0 10px rgba(255, 77, 109, 0.3);
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+            background-color: var(--primary-light);
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            transform: translateX(150%);
+            transition: transform 0.5s var(--cubic);
+            z-index: 2000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            animation: notificationBounce 0.5s var(--cubic);
+        }
+
+        @keyframes notificationBounce {
+            0% { transform: translateX(150%); }
+            80% { transform: translateX(-5%); }
+            100% { transform: translateX(0); }
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-left: 5px solid #1e7e34;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #dc3545, #ff6b6b);
+            border-left: 5px solid #bd2130;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+        }
+
+        .notification-message {
+            font-size: 1rem;
+        }
+
+        /* Animations for Memory Boxes */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .memory-box {
+                width: 280px;
+                min-height: 280px;
+            }
+            
+            .slideshow-content {
+                width: 98%;
+                padding: 20px;
+            }
+            
+            .edit-modal .modal-content, .login-modal .login-content {
+                padding: 20px;
+            }
+            
+            .add-memory-btn {
+                font-size: 1.2rem;
+                padding: 12px 25px;
+            }
+            
+            .slideshow-image-container {
+                height: 300px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+                padding: 15px;
+            }
+            
+            .love-text {
+                font-size: 2rem;
+            }
+            
+            header {
+                padding: 15px 20px;
+            }
+            
+            header button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .memory-carousel {
+                height: 55%;
+            }
+        }
+
+        /* Memory Container Layout */
+        .memory-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            margin: 80px 20px 40px 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Memory Box Dimensions */
+        .memory-box {
+            width: 300px;
+            height: 350px;
+            position: relative;
+            animation: fadeInUp 0.6s var(--cubic);
+            animation-delay: calc(var(--i, 0) * 0.1s);
+        }
+
+        /* Carousel Components */
+        .memory-carousel {
+            width: 100%;
+            height: 60%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-carousel-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .memory-carousel-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .memory-carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Slideshow Modal */
+        .slideshow-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .slideshow-modal.active {
+            display: flex;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .slideshow-content {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            padding: 32px;
+            max-width: 650px;
+            width: 95vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: modalEnterWithGlow 0.7s var(--cubic);
+            z-index: 2001;
+        }
+        
+        @keyframes modalEnterWithGlow {
+            0% {
+                transform: translateY(-50px) scale(0.9);
+                opacity: 0;
+                filter: brightness(1.3) blur(5px);
+            }
+            70% {
+                transform: translateY(10px) scale(1.02);
+                filter: brightness(1.1) blur(0);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+                filter: brightness(1) blur(0);
+            }
+        }
+        
+        /* Multi-colored edge lighting effect for slideshow modal */
+        /* Main content styling with thin edge glow */
+        .slideshow-content {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            z-index: 2001;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        /* Add a dedicated thin border glow element */
+        .slideshow-modal.active .slideshow-content::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 25px;
+            background: none;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 5px 1px rgba(255, 107, 107, 0.7);
+            z-index: -1;
+            animation: borderPulse 2s infinite alternate;
+        }
+        
+        @keyframes borderPulse {
+            0% {
+                box-shadow: 0 0 5px 1px rgba(255, 107, 107, 0.7);
+                border-color: rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 8px 1px rgba(0, 162, 255, 0.7);
+                border-color: rgba(255, 255, 255, 0.9);
+            }
+        }
+        
+        /* Very thin outer edge glow */
+        .slideshow-modal::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: none; /* Remove the background gradient */
+            z-index: 1997;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+            /* Create a thin frame around the modal instead */
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 95vw;
+            max-width: 650px;
+            height: 90vh;
+            margin: auto;
+            border-radius: 24px;
+            box-sizing: border-box;
+        }
+        
+        /* Very thin colorful border around the modal */
+        .slideshow-modal::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(
+                    90deg, 
+                    #ff6b6b, #ff47a0, #9000ff, #0070ff, #00ffea, #00ff70, #ffea00, #ff6b6b
+                );
+            background-size: 800% 800%;
+            z-index: 1998;
+            filter: blur(5px); /* Much less blur for a sharper edge */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+            animation: movingGradient 10s linear infinite;
+            /* Much thinner edge glow with sharp transition */
+            mask: radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.9) 46%, rgba(0,0,0,0.95) 48%, black 50%);
+            -webkit-mask: radial-gradient(circle at center, transparent 45%, rgba(0,0,0,0.9) 46%, rgba(0,0,0,0.95) 48%, black 50%);
+        }
+        
+        /* Minimal additional glow elements */
+        .slideshow-modal.active::before {
+            box-shadow: 
+                0 0 15px 5px rgba(255, 0, 128, 0.2),
+                0 0 20px 8px rgba(0, 162, 255, 0.2);
+        }
+        
+        /* Active states for the glow effects */
+        .slideshow-modal.active::before {
+            opacity: 1;
+        }
+        
+        .slideshow-modal.active::after {
+            opacity: 0.9; /* Higher opacity for more visibility */
+        }
+        
+        /* Special edge highlight for the modal content */
+        .slideshow-modal.active .slideshow-content {
+            animation: contentPulse 3s ease-in-out infinite alternate;
+        }
+        
+        /* Animation for the moving gradient border */
+        @keyframes movingGradient {
+            0% {
+                background-position: 0% 50%;
+                filter: hue-rotate(0deg) blur(5px);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: hue-rotate(180deg) blur(6px);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: hue-rotate(360deg) blur(5px);
+            }
+        }
+        
+        /* Animation for the content pulse */
+        @keyframes contentPulse {
+            0% {
+                box-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.3),
+                    inset 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 
+                    0 0 30px rgba(255, 255, 255, 0.5),
+                    inset 0 0 15px rgba(255, 255, 255, 0.2);
+            }
+            100% {
+                box-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.3),
+                    inset 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+        }
+        
+        /* Removed original glowingBorder animation as it's been replaced by movingGradient */
+        
+        /* Removed pulseBorder animation as it's been replaced by edgeLighting and pulseEdge animations */
+
+        .close-btn, .back-btn {
+            position: absolute;
+            top: 18px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn { right: 18px; }
+        .back-btn { left: 18px; }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #ffffff;
+            text-align: center;
+            font-size: 3rem;
+            margin-top: 0px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <p id="loginError">Invalid username or password</p>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="notification success" id="successNotification">
+        <div class="notification-icon">✓</div>
+        <div class="notification-message" id="successMessage"></div>
+    </div>
+    
+    <div class="notification error" id="errorNotification">
+        <div class="notification-icon">✗</div>
+        <div class="notification-message" id="errorMessage"></div>
+    </div>
+
+    <!-- Main Content (Hidden until login) -->
+    <div id="mainContent" style="display: none;">
+        <!-- Header -->
+        <header>
+            <div class="nav-buttons">
+                <button onclick="navigateTo('welcome.html')">Home</button>
+                <button onclick="navigateTo('main.html')">Main Page</button>
+                <button onclick="navigateTo('gallery.html')">Gallery</button>
+                <button onclick="navigateTo('timeline.html')">Timeline</button>
+                <button onclick="navigateTo('memory.html')" class="active">Memories</button>
+                <button onclick="navigateTo('about.html')">About</button>
+                <button onclick="navigateTo('contact.html')">Contact</button>
+            </div>
+            <div class="love-text">I LOVE YOU</div>
+        </header>
+
+        <!-- Main Title -->
+        <h1>Our Sweet Memories</h1>
+
+        <!-- Server Status Indicator -->
+        <div id="serverStatus" style="text-align: center; margin: 10px 0; padding: 10px; border-radius: 10px; background: rgba(0,0,0,0.1); display: none;">
+            <span id="statusText">Checking server connection...</span>
+        </div>
+
+        <!-- Add Memory Button -->
+        <button class="add-memory-btn" onclick="openEditModal()">+ Add Memory</button>
+
+        <!-- Loading Animation -->
+        <div class="loading" id="loadingAnimation">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+
+        <!-- Memory Boxes -->
+        <div class="memory-container" id="memoryContainer"></div>
+
+        <!-- Slideshow Modal -->
+        <div class="slideshow-modal" id="slideshowModal">
+            <div class="slideshow-content">
+                <button class="close-btn" onclick="closeSlideshow()">×</button>
+                <button class="back-btn" onclick="closeSlideshow()">←</button>
+                <div class="slideshow-image-container">
+                    <div class="slideshow-carousel-inner" id="slideshowCarouselInner"></div>
+                </div>
+                <div class="slideshow-thumbnails" id="slideshowThumbnails"></div>
+                <div class="slideshow-navigation">
+                    <button onclick="changeImage(-1)">❮</button>
+                    <button onclick="changeImage(1)">❯</button>
+                </div>
+                <div class="audio-player" id="audioPlayer" style="display: none;">
+                    <button class="audio-player-btn" id="audioPlayPauseBtn">▶</button>
+                    <div class="audio-player-progress" id="audioProgress">
+                        <div class="audio-player-progress-bar" id="audioProgressBar"></div>
+                    </div>
+                    <div class="audio-player-volume" id="audioVolume">
+                        <div class="audio-player-volume-bar" id="audioVolumeBar"></div>
+                    </div>
+                </div>
+                <audio id="backgroundMusic" loop style="display: none;"></audio>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="edit-modal" id="addMemoryModal">
+            <div class="modal-content">
+                <h2 class="modal-header">Add New Memory</h2>
+                <form id="memoryForm" enctype="multipart/form-data">
+                    <input type="text" name="title" placeholder="Title" required />
+                    <textarea name="description" placeholder="Description" required></textarea>
+                    <input type="date" name="date" required />
+                    <label class="file-upload-label">Images (Required)</label>
+                    <input type="file" name="images" multiple accept="image/*" required />
+                    <label class="file-upload-label">Video (Optional)</label>
+                    <input type="file" name="video" accept="video/*" />
+                    <label class="file-upload-label">Background Music (Optional, MP3 only)</label>
+                    <input type="file" name="music" accept="audio/mp3,audio/mpeg" />
+                    <button type="submit">Save Memory</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update API_URL to ensure it has the correct protocol, hostname and port
+        const API_URL = 'http://localhost:3000';
+        let memories = [];
+        let currentMemoryIndex = 0;
+        let currentImageIndex = 0;
+        let autoplayInterval;
+        let isSaving = false;
+        
+        // Debug function to check server connection
+        async function checkServerConnection() {
+            const statusDiv = document.getElementById('serverStatus');
+            const statusText = document.getElementById('statusText');
+            
+            statusDiv.style.display = 'block';
+            statusText.textContent = 'Checking server connection...';
+            statusDiv.style.background = 'rgba(255, 193, 7, 0.2)';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/memories`);
+                console.log('Server connection successful:', response.status);
+                
+                if (response.ok) {
+                    statusText.textContent = '✅ Server connected successfully!';
+                    statusDiv.style.background = 'rgba(40, 167, 69, 0.2)';
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 3000);
+                    return true;
+                } else {
+                    statusText.textContent = `❌ Server error: ${response.status}`;
+                    statusDiv.style.background = 'rgba(220, 53, 69, 0.2)';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Server connection failed:', error);
+                statusText.textContent = '❌ Cannot connect to server. Please ensure the backend is running on port 3000.';
+                statusDiv.style.background = 'rgba(220, 53, 69, 0.2)';
+                return false;
+            }
+        }
+        
+        // Show success notification
+        function showSuccess(message) {
+            const notification = document.getElementById('successNotification');
+            const messageElement = document.getElementById('successMessage');
+            messageElement.textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s forwards';
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.style.animation = '';
+                }, 500);
+            }, 3000);
+        }
+        
+        // Show error notification
+        function showError(message) {
+            const notification = document.getElementById('errorNotification');
+            const messageElement = document.getElementById('errorMessage');
+            messageElement.textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s forwards';
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.style.animation = '';
+                }, 500);
+            }, 4000);
+        }
+
+        // Function to move carousel in memory box
+        function moveCarousel(event, direction, memoryIndex) {
+            event.stopPropagation(); // Prevent opening slideshow
+            
+            const memory = memories[memoryIndex];
+            if (!memory.imageUrls || memory.imageUrls.length <= 1) return;
+            
+            const memoryBox = document.querySelectorAll('.memory-box')[memoryIndex];
+            const currentSlide = parseInt(memoryBox.getAttribute('data-current-slide'));
+            
+            let nextSlide = currentSlide + direction;
+            if (nextSlide < 0) nextSlide = memory.imageUrls.length - 1;
+            if (nextSlide >= memory.imageUrls.length) nextSlide = 0;
+            
+            updateCarousel(memoryBox, nextSlide);
+        }
+        
+        // Jump to specific slide in carousel
+        function jumpToSlide(event, slideIndex, memoryIndex) {
+            event.stopPropagation(); // Prevent opening slideshow
+            
+            const memoryBox = document.querySelectorAll('.memory-box')[memoryIndex];
+            updateCarousel(memoryBox, slideIndex);
+        }
+        
+        // Update carousel position and indicators
+        function updateCarousel(memoryBox, slideIndex) {
+            const carouselInner = memoryBox.querySelector('.memory-carousel-inner');
+            const dots = memoryBox.querySelectorAll('.carousel-dot');
+            
+            // Update transform to show current slide
+            carouselInner.style.transform = `translateX(-${slideIndex * 100}%)`;
+            
+            // Update active dot
+            dots.forEach((dot, idx) => {
+                if (idx === slideIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Update current slide attribute
+            memoryBox.setAttribute('data-current-slide', slideIndex.toString());
+        }
+
+        // Debug function to log image URLs
+        function logImageUrls(memory) {
+            if (memory.imageUrls && memory.imageUrls.length > 0) {
+                console.log('Original image URLs:', memory.imageUrls);
+                memory.imageUrls.forEach((url, index) => {
+                    const fullUrl = url.startsWith('http') ? url : `${API_URL}${url}`;
+                    console.log(`Image ${index} full URL:`, fullUrl);
+                });
+            }
+            if (memory.videoUrl) {
+                console.log('Video URL:', memory.videoUrl);
+                console.log('Full video URL:', memory.videoUrl.startsWith('http') ? memory.videoUrl : `${API_URL}${memory.videoUrl}`);
+            }
+        }
+        
+        // Debug function for slideshow
+        function debugSlideshow() {
+            console.log('Current memory index:', currentMemoryIndex);
+            console.log('Current image index:', currentImageIndex);
+            const carouselInner = document.getElementById("slideshowCarouselInner");
+            console.log('Carousel inner HTML:', carouselInner.innerHTML);
+            console.log('Number of images:', carouselInner.querySelectorAll('img').length);
+            
+            const images = carouselInner.querySelectorAll('img');
+            images.forEach((img, idx) => {
+                console.log(`Image ${idx} - src: ${img.src}, display: ${img.style.display}, opacity: ${img.style.opacity}, classList: ${img.className}`);
+            });
+        }
+
+        // Load memories from the server
+        async function loadMemories() {
+            try {
+                // Check server connection first
+                const serverConnected = await checkServerConnection();
+                if (!serverConnected) {
+                    return;
+                }
+                
+                // Show loading animation
+                document.getElementById('loadingAnimation').style.display = 'flex';
+                document.getElementById('memoryContainer').style.display = 'none';
+                
+                const response = await fetch(`${API_URL}/api/memories`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                memories = await response.json();
+                console.log('Loaded memories:', memories);
+                
+                // Hide loading animation and show memories
+                document.getElementById('loadingAnimation').style.display = 'none';
+                document.getElementById('memoryContainer').style.display = 'flex';
+                
+                if (memories.length === 0) {
+                    showSuccess('No memories found. Add your first memory!');
+                }
+                
+                displayMemories();
+            } catch (error) {
+                console.error('Error loading memories:', error);
+                showError('Failed to load memories. Please check if the server is running.');
+                
+                // Hide loading animation even on error
+                document.getElementById('loadingAnimation').style.display = 'none';
+                document.getElementById('memoryContainer').style.display = 'flex';
+            }
+        }
+
+        // Save a new memory
+        async function saveMemory(event) {
+            event.preventDefault();
+            if (isSaving) return;
+            
+            isSaving = true;
+            const form = document.getElementById('memoryForm');
+            const formData = new FormData(form);
+            
+            // Log form data for debugging
+            console.log('Form data being submitted:');
+            for (let pair of formData.entries()) {
+                if (pair[0] === 'images' || pair[0] === 'video') {
+                    console.log(pair[0], pair[1].name);
+                } else {
+                    console.log(pair[0], pair[1]);
+                }
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/memories`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to save memory');
+                }
+
+                const newMemory = await response.json();
+                console.log('New memory saved:', newMemory);
+                memories.unshift(newMemory);
+                displayMemories();
+                closeEditModal();
+                form.reset();
+                showSuccess('Memory saved successfully!');
+            } catch (error) {
+                console.error('Error saving memory:', error);
+                showError('Failed to save memory: ' + error.message);
+            } finally {
+                isSaving = false;
+            }
+        }
+
+        // Delete a memory
+        async function deleteMemory(id, event) {
+            // Prevent the click from bubbling up to the memory box
+            if (event) {
+            event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            if (!confirm('Are you sure you want to delete this memory?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/memories/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete memory');
+                }
+
+                memories = memories.filter(memory => memory._id !== id);
+                displayMemories();
+                showSuccess('Memory deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting memory:', error);
+                showError('Failed to delete memory. Please try again.');
+            }
+        }
+
+        // Display memories in the container
+        function displayMemories() {
+            const container = document.querySelector('.memory-container');
+            container.innerHTML = '';
+
+            if (memories.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; width: 100%; padding: 50px; color: #666;">
+                        <h3>No memories yet</h3>
+                        <p>Click "Add Memory" to create your first memory!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            memories.forEach((memory, memoryIndex) => {
+                // Log image URLs for debugging
+                logImageUrls(memory);
+                
+                const memoryBox = document.createElement('div');
+                memoryBox.className = 'memory-box';
+                
+                // Create carousel for images
+                let carouselHTML = '<div class="memory-carousel">';
+                carouselHTML += '<div class="memory-carousel-inner">';
+                
+                // If no images, use default
+                if (!memory.imageUrls || memory.imageUrls.length === 0) {
+                    carouselHTML += `
+                        <div class="memory-carousel-item">
+                            <img src="images/default-memory.jpg" alt="Default Image" 
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='">
+                        </div>
+                    `;
+                } else {
+                    // Add all images to carousel
+                    memory.imageUrls.forEach((url, idx) => {
+                        const imgUrl = url.startsWith('http') ? url : `${API_URL}${url}`;
+                        carouselHTML += `
+                            <div class="memory-carousel-item" data-index="${idx}">
+                                <img src="${imgUrl}" alt="${memory.title}" 
+                                     onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIEVycm9yPC90ZXh0Pjwvc3ZnPg=='; console.error('Failed to load image:', '${imgUrl}');">
+                            </div>
+                        `;
+                    });
+                }
+                
+                carouselHTML += '</div>'; // Close carousel-inner
+                
+                // Always add carousel controls for better UX
+                carouselHTML += `
+                    <button class="carousel-control carousel-prev" onclick="moveCarousel(event, -1, ${memoryIndex})">❮</button>
+                    <button class="carousel-control carousel-next" onclick="moveCarousel(event, 1, ${memoryIndex})">❯</button>
+                `;
+                
+                // Add dots for navigation
+                if (memory.imageUrls && memory.imageUrls.length > 1) {
+                    carouselHTML += '<div class="memory-carousel-dots">';
+                    
+                    // Add dots for each image
+                    memory.imageUrls.forEach((_, idx) => {
+                        carouselHTML += `<div class="carousel-dot ${idx === 0 ? 'active' : ''}" 
+                                             onclick="jumpToSlide(event, ${idx}, ${memoryIndex})"></div>`;
+                    });
+                    
+                    carouselHTML += '</div>'; // Close dots container
+                }
+                
+                // Add music icon if memory has music
+                if (memory.musicUrl) {
+                    carouselHTML += '<div class="memory-music-icon">♫</div>';
+                }
+                
+                // Add video icon if memory has video
+                if (memory.videoUrl) {
+                    carouselHTML += '<div class="memory-video-icon">▶</div>';
+                }
+                
+                carouselHTML += '</div>'; // Close memory-carousel
+                
+                // Add memory details
+                carouselHTML += `
+                    <div class="memory-title">${memory.title}</div>
+                    <div class="memory-description">${memory.description}</div>
+                `;
+                
+                // Add delete button separately to ensure it's properly positioned
+                carouselHTML += `<div class="delete-btn" onclick="deleteMemory('${memory._id}', event)">×</div>`;
+                
+                memoryBox.innerHTML = carouselHTML;
+                
+                // Set data attribute to track current slide
+                memoryBox.setAttribute('data-current-slide', '0');
+                
+                // Add click event for the whole box
+                memoryBox.addEventListener('click', (e) => {
+                    // Check if the clicked element is the delete button or its parent
+                    const isDeleteButton = e.target.classList.contains('delete-btn') || 
+                                          e.target.parentElement.classList.contains('delete-btn');
+                    
+                    // Don't open slideshow if clicking on controls or delete button
+                    if (!e.target.closest('.carousel-control') && 
+                        !e.target.closest('.carousel-dot') && 
+                        !isDeleteButton) {
+                        openSlideshow(memoryIndex);
+                    }
+                });
+                
+                container.appendChild(memoryBox);
+                
+                // Auto rotate carousel every 5 seconds
+                if (memory.imageUrls && memory.imageUrls.length > 1) {
+                    setInterval(() => {
+                        if (!document.querySelector('.slideshow-modal.active')) { // Only if slideshow not open
+                            const currentSlide = parseInt(memoryBox.getAttribute('data-current-slide'));
+                            const nextSlide = (currentSlide + 1) % memory.imageUrls.length;
+                            updateCarousel(memoryBox, nextSlide);
+                        }
+                    }, 5000);
+                }
+            });
+        }
+
+        // Open Slideshow Modal
+        function openSlideshow(index) {
+            const memory = memories[index];
+            currentMemoryIndex = index;
+            currentImageIndex = 0;
+            const slideshowModal = document.getElementById("slideshowModal");
+            const carouselInner = document.getElementById("slideshowCarouselInner");
+            const thumbnailsContainer = document.getElementById("slideshowThumbnails");
+            carouselInner.innerHTML = '';
+            thumbnailsContainer.innerHTML = '';
+            
+            // Add all images to carousel
+            if (memory.imageUrls && memory.imageUrls.length > 0) {
+                memory.imageUrls.forEach((url, idx) => {
+                    const imgUrl = url.startsWith('http') ? url : `${API_URL}${url}`;
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    img.alt = `${memory.title} - Image ${idx + 1}`;
+                    img.style.display = idx === 0 ? 'block' : 'none';
+                    img.style.opacity = idx === 0 ? '1' : '0';
+                    if (idx === 0) {
+                        img.classList.add('active');
+                    }
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+                        console.log('Image failed to load:', imgUrl);
+                    };
+                    carouselInner.appendChild(img);
+                    
+                    // Thumbnails
+                    const thumbnail = document.createElement('img');
+                    thumbnail.src = imgUrl;
+                    thumbnail.alt = `Thumbnail ${idx + 1}`;
+                    thumbnail.className = `slideshow-thumbnail ${idx === 0 ? 'active' : ''}`;
+                    thumbnail.style.width = '50px';
+                    thumbnail.style.height = '50px';
+                    thumbnail.style.objectFit = 'cover';
+                    thumbnail.style.margin = '0 5px';
+                    thumbnail.style.cursor = 'pointer';
+                    thumbnail.style.border = idx === 0 ? '2px solid #ff6b6b' : '2px solid transparent';
+                    thumbnail.style.borderRadius = '5px';
+                    thumbnail.style.transition = 'all 0.3s';
+                    
+                    thumbnail.onclick = function() {
+                        currentImageIndex = idx;
+                        updateSlideshowImage();
+                        
+                        // Update thumbnail borders
+                        document.querySelectorAll('.slideshow-thumbnail').forEach((thumb, i) => {
+                            thumb.style.border = i === idx ? '2px solid #ff6b6b' : '2px solid transparent';
+                        });
+                    };
+                    
+                    thumbnailsContainer.appendChild(thumbnail);
+                });
+            }
+            
+            updateSlideshowImage();
+            
+            // Handle background music if present
+            if (memory.musicUrl) {
+                const musicUrl = memory.musicUrl.startsWith('http') ? memory.musicUrl : `${API_URL}${memory.musicUrl}`;
+                const backgroundMusic = document.getElementById("backgroundMusic");
+                const audioPlayer = document.getElementById("audioPlayer");
+                backgroundMusic.src = musicUrl;
+                audioPlayer.style.display = "flex";
+                backgroundMusic.load();
+                setupAudioPlayer();
+                backgroundMusic.play().catch(e => {
+                    document.getElementById("audioPlayPauseBtn").textContent = "❚❚";
+                });
+            } else {
+                document.getElementById("audioPlayer").style.display = "none";
+                document.getElementById("backgroundMusic").style.display = "none";
+                document.getElementById("backgroundMusic").pause();
+                document.getElementById("backgroundMusic").src = "";
+            }
+            
+            // Handle video if present
+            if (memory.videoUrl) {
+                const slideshowContent = document.getElementById("slideshowModal").querySelector(".slideshow-content");
+                const video = document.createElement("video");
+                const videoUrl = memory.videoUrl.startsWith('http') ? memory.videoUrl : `${API_URL}${memory.videoUrl}`;
+                video.src = videoUrl;
+                video.controls = true;
+                video.style.width = "100%";
+                video.style.maxHeight = "60vh";
+                video.style.margin = "0 auto 20px auto";
+                video.style.display = "block";
+                slideshowContent.insertBefore(video, thumbnailsContainer);
+                video.play().catch(e => {});
+            }
+            
+            // Auto-scroll
+            if (memory.imageUrls && memory.imageUrls.length > 1) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = setInterval(() => {
+                    currentImageIndex = (currentImageIndex + 1) % memory.imageUrls.length;
+                    updateSlideshowImage();
+                    
+                    // Update thumbnail borders
+                    document.querySelectorAll('.slideshow-thumbnail').forEach((thumb, i) => {
+                        thumb.style.border = i === currentImageIndex ? '2px solid #ff6b6b' : '2px solid transparent';
+                    });
+                }, 3000);
+            }
+            
+            slideshowModal.classList.add("active");
+            document.addEventListener("keydown", handleKeyPress);
+        }
+        function updateSlideshowImage() {
+            const memory = memories[currentMemoryIndex];
+            const carouselInner = document.getElementById("slideshowCarouselInner");
+            
+            if (!memory.imageUrls || memory.imageUrls.length === 0) return;
+            
+            console.log('Updating slideshow image to index:', currentImageIndex);
+            
+            // Hide all images and show only the current one
+            const images = carouselInner.querySelectorAll('img');
+            console.log('Total images in carousel:', images.length);
+            
+            images.forEach((img, idx) => {
+                if (idx === currentImageIndex) {
+                    img.style.display = 'block';
+                    img.classList.add('active');
+                    img.style.opacity = '1';
+                    console.log('Setting active image:', idx);
+                } else {
+                    img.style.display = 'none';
+                    img.classList.remove('active');
+                    img.style.opacity = '0';
+                }
+            });
+            
+            // Update thumbnails
+            const thumbnails = document.querySelectorAll(".slideshow-thumbnail");
+            thumbnails.forEach((thumb, idx) => {
+                if (idx === currentImageIndex) {
+                    thumb.classList.add('active');
+                    thumb.style.border = '2px solid #ff6b6b';
+                } else {
+                    thumb.classList.remove('active');
+                    thumb.style.border = '2px solid transparent';
+                }
+            });
+            
+            // Call debug function
+            debugSlideshow();
+        }
+
+        // Handle Keyboard Navigation
+        function handleKeyPress(event) {
+            if (event.key === "ArrowLeft") {
+                changeImage(-1);
+            } else if (event.key === "ArrowRight") {
+                changeImage(1);
+            } else if (event.key === "Escape") {
+                closeSlideshow();
+            }
+        }
+
+        // Change Image in Slideshow
+        function changeImage(direction) {
+            const memory = memories[currentMemoryIndex];
+            if (!memory.imageUrls || memory.imageUrls.length <= 1) return;
+            
+            currentImageIndex += direction;
+
+            if (currentImageIndex < 0) currentImageIndex = memory.imageUrls.length - 1;
+            if (currentImageIndex >= memory.imageUrls.length) currentImageIndex = 0;
+
+            updateSlideshowImage();
+        }
+
+        // Close Slideshow Modal
+        function closeSlideshow() {
+            clearInterval(autoplayInterval);
+            document.getElementById("slideshowModal").classList.remove("active");
+            
+            // Stop any videos
+            const video = document.querySelector(".slideshow-content video");
+            if (video) {
+                video.pause();
+            }
+            
+            // Stop background music
+            const backgroundMusic = document.getElementById("backgroundMusic");
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+            
+            document.removeEventListener("keydown", handleKeyPress);
+        }
+
+        // Open Edit Modal
+        function openEditModal() {
+            document.getElementById("addMemoryModal").classList.add("active");
+        }
+
+        // Close Edit Modal
+        function closeEditModal() {
+            document.getElementById("addMemoryModal").classList.remove("active");
+            document.getElementById("memoryForm").reset();
+        }
+
+        // Login Functionality
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username === "kajal" && password === "uswhen") {
+                closeLoginModal();
+                document.getElementById("mainContent").style.display = "block";
+                loadMemories(); // Load memories after successful login
+            } else {
+                document.getElementById("loginError").style.display = "block";
+            }
+        }
+
+        function logout() {
+            document.getElementById("mainContent").style.display = "none";
+            openLoginModal();
+        }
+
+        function closeLoginModal() {
+            document.getElementById("loginModal").style.display = "none";
+        }
+
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        function openLoginModal() {
+            document.getElementById("loginModal").style.display = "flex";
+        }
+
+        // Setup custom audio player controls
+        function setupAudioPlayer() {
+            const audio = document.getElementById("backgroundMusic");
+            const playPauseBtn = document.getElementById("audioPlayPauseBtn");
+            const progressBar = document.getElementById("audioProgressBar");
+            const progressContainer = document.getElementById("audioProgress");
+            const volumeBar = document.getElementById("audioVolumeBar");
+            const volumeContainer = document.getElementById("audioVolume");
+            
+            // Play/Pause button
+            playPauseBtn.addEventListener("click", function() {
+                if (audio.paused) {
+                    audio.play();
+                    this.textContent = "❚❚";
+                } else {
+                    audio.pause();
+                    this.textContent = "▶";
+                }
+            });
+            
+            // Update progress bar
+            audio.addEventListener("timeupdate", function() {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = progress + "%";
+            });
+            
+            // Seek functionality
+            progressContainer.addEventListener("click", function(e) {
+                const percent = e.offsetX / this.offsetWidth;
+                audio.currentTime = percent * audio.duration;
+            });
+            
+            // Volume control
+            volumeContainer.addEventListener("click", function(e) {
+                const percent = e.offsetX / this.offsetWidth;
+                audio.volume = percent;
+                volumeBar.style.width = (percent * 100) + "%";
+            });
+            
+            // Initial state
+            audio.addEventListener("play", function() {
+                playPauseBtn.textContent = "❚❚";
+            });
+            
+            audio.addEventListener("pause", function() {
+                playPauseBtn.textContent = "▶";
+            });
+            
+            // Set initial volume bar
+            volumeBar.style.width = (audio.volume * 100) + "%";
+        }
+
+        // Add event listeners when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show login modal by default
+            openLoginModal();
+            
+            // Add submit event to memory form
+            document.getElementById('memoryForm').addEventListener('submit', saveMemory);
+            
+            // Add close button to edit modal
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-modal-btn';
+            closeBtn.innerHTML = '×';
+            closeBtn.onclick = closeEditModal;
+            document.querySelector('#addMemoryModal .modal-content').appendChild(closeBtn);
+        });
+    </script>
+</body>
+</html>
