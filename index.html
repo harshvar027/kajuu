@@ -692,13 +692,17 @@
             }
         }, 5000);
         
-        // Hide loading when video loads
-        document.getElementById('video-background').addEventListener('loadeddata', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+    const video = document.getElementById('video-background');
+    if (video) {
+        video.addEventListener('loadeddata', function () {
             videoLoaded = true;
             setTimeout(() => {
                 document.querySelector('.loading-screen').classList.add('fade-out');
             }, 1000);
         });
+    }
+});
         
         // If video fails, show fallback image and message
         document.getElementById('video-background').addEventListener('error', function() {
