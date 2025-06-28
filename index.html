@@ -705,7 +705,7 @@
 });
         
         // If video fails, show fallback image and message
-        document.getElementById('video-background').addEventListener('error', function() {
+        document.getElementById('bgVideo').addEventListener('error', function() {
             document.getElementById('fallbackBg').style.display = 'block';
             setTimeout(() => {
                 document.getElementById('fallbackMsg').style.display = 'block';
